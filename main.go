@@ -14,8 +14,22 @@ go_repository(
     importpath="%s",
     commit="%s",
 )
-)
 `
+
+// copied from https://github.com/bazelbuild/rules_go/blob/master/go/tools/gazelle/resolve/resolve_external.go
+// ImportPathToBazelRepoName converts a Go import path into a bazel repo name
+// following the guidelines in http://bazel.io/docs/be/functions.html#workspace
+func ImportPathToBazelRepoName(importpath string) string {
+	components := strings.Split(importpath, "/")
+	labels := strings.Split(components[0], ".")
+	var reversed []string
+	for i := range labels {
+		l := labels[len(labels)-i-1]
+		reversed = append(reversed, l)
+	}
+	repo := strings.Join(append(reversed, components[1:]...), "_")
+	return strings.NewReplacer("-", "_", ".", "_").Replace(repo)
+}
 
 func main() {
 
@@ -36,34 +50,7 @@ func main() {
 		bazelImportpath := imports.Name
 		bazelVersion := imports.Version
 
-		// now for the slightly involved part -- generating the bazel repo name.
-		// For an example, it transforms the following string like this:
-		// github.com/Masterminds/vcs -> com_github_masterminds_vcs
-		// it takes the domain, then inverts it so that the TLD goes first.
-
-		// first, let's divide it by the slash (/), separating the domain and the urlpath
-		// we should have exactly three divisions
-		splits := strings.SplitAfterN(imports.Name, "/", 2)
-
-		if len(splits) != 2 {
-			panic(fmt.Sprintf("One of the repo names is invalid :%v", imports.Name))
-		}
-
-		fulldomain, urlpath := splits[0], splits[1]
-
-		// just slugify the urlpath
-		slugURLPath := strings.Replace(urlpath, ".", "_", -1)
-		slugURLPath = strings.Replace(slugURLPath, "/", "_", -1)
-		slugURLPath = strings.ToLower(slugURLPath)
-
-		// further split the domain into the TLD and the actual domain
-		domainsplit := strings.Split(fulldomain, ".")
-		domain, tld := domainsplit[0], domainsplit[1]
-		// remove the slash from the tld that Split leaves behind
-		tld = strings.Replace(tld, "/", "", -1)
-
-		// put everything together
-		bazelName := fmt.Sprintf("%s_%s_%s", tld, domain, slugURLPath)
+		bazelName := ImportPathToBazelRepoName(bazelImportpath)
 
 		// print everything
 		fmt.Printf(goRepoTemplate, bazelName, bazelImportpath, bazelVersion)
