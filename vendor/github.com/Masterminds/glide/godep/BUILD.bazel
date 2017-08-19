@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["godep.go"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/Masterminds/glide/cfg:go_default_library",
+        "//vendor/github.com/Masterminds/glide/msg:go_default_library",
+        "//vendor/github.com/Masterminds/glide/path:go_default_library",
+        "//vendor/github.com/Masterminds/glide/util:go_default_library",
+    ],
+)

@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "installer.go",
+        "repo.go",
+        "semver.go",
+        "set_reference.go",
+        "tracker.go",
+        "vcs.go",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/Masterminds/glide/cache:go_default_library",
+        "//vendor/github.com/Masterminds/glide/cfg:go_default_library",
+        "//vendor/github.com/Masterminds/glide/dependency:go_default_library",
+        "//vendor/github.com/Masterminds/glide/importer:go_default_library",
+        "//vendor/github.com/Masterminds/glide/msg:go_default_library",
+        "//vendor/github.com/Masterminds/glide/path:go_default_library",
+        "//vendor/github.com/Masterminds/glide/util:go_default_library",
+        "//vendor/github.com/Masterminds/semver:go_default_library",
+        "//vendor/github.com/Masterminds/vcs:go_default_library",
+        "//vendor/github.com/codegangsta/cli:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["tracker_test.go"],
+    library = ":go_default_library",
+)

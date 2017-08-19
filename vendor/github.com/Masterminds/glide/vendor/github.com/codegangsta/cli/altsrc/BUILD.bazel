@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "flag.go",
+        "input_source_context.go",
+        "map_input_source.go",
+        "yaml_file_loader.go",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/urfave/cli:go_default_library",
+        "//vendor/gopkg.in/yaml.v2:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "flag_test.go",
+        "helpers_test.go",
+        "yaml_command_test.go",
+    ],
+    library = ":go_default_library",
+    deps = ["//vendor/github.com/urfave/cli:go_default_library"],
+)

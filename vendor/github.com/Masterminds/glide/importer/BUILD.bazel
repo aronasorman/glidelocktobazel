@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["importer.go"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/Masterminds/glide/cfg:go_default_library",
+        "//vendor/github.com/Masterminds/glide/gb:go_default_library",
+        "//vendor/github.com/Masterminds/glide/godep:go_default_library",
+        "//vendor/github.com/Masterminds/glide/gom:go_default_library",
+        "//vendor/github.com/Masterminds/glide/gpm:go_default_library",
+    ],
+)

@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "msg.go",
+        "out.go",
+    ] + select({
+        "@io_bazel_rules_go//go/platform:windows_amd64": [
+            "out_windows.go",
+        ],
+        "//conditions:default": [],
+    }),
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/Masterminds/vcs:go_default_library"],
+)

@@ -14,3 +14,4 @@
 .glide/
 /glidelocktobazel
 /TAGS
+/bazel-*
