@@ -1,0 +1,18 @@
+hash: 409f4973b72a07f288bb4c55de164f52fa13badf4cf947db719474ea9d029e11
+updated: 2017-08-18T23:25:18.184401162-07:00
+imports:
+- name: github.com/Masterminds/glide
+  version: 84607742b10f492430762d038e954236bbaf23f7
+  subpackages:
+  - cfg
+  - cfg/lock
+  - godep/strip
+  - mirrors
+  - msg
+  - path
+  - util
+- name: github.com/Masterminds/vcs
+  version: 3084677c2c188840777bff30054f2b553729d329
+- name: gopkg.in/yaml.v2
+  version: a83829b6f1293c91addabc89d0571c246397bbf4
+testImports: []
